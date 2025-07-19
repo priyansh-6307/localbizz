@@ -26,7 +26,7 @@ export function Navigation() {
             <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">WB</span>
             </div>
-            <img className="w-14 h-14 " src="lgoo.png" alt=""  />
+            <img className="w-14 h-14 " src="favicon.ico" alt=""  />
           </Link>
 
           {/* Desktop Navigation */}

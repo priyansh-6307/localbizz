@@ -11,11 +11,11 @@ import Work from "./pages/Work";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-import Restaurant from "./pages/service/restaurant"; // Import service components
-import Architect from "./pages/service/architect";
-import Retail from "./pages/service/retail";
-import Real from "./pages/service/real";
-import Other from "./pages/service/other";
+import Restaurant from "./pages/service/Restaurant"; // Import service components
+import Architect from "./pages/service/Architect";
+import Retail from "./pages/service/Retail"
+import Real from "./pages/service/Real";
+import Other from "./pages/service/Other";
 
 const queryClient = new QueryClient();
 
