@@ -10,22 +10,18 @@ export function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
              
-              <span className="text-xl font-bold">Localbizz</span>
+              <span className="text-xl font-bold">Locbizz</span>
             </div>
            
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <Facebook className="w-5 h-5 hover:text-secondary cursor-pointer transition-colors" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+            
+              <a href="https://x.com/DiskCuser" target="_blank" rel="noopener noreferrer">
                 <Twitter className="w-5 h-5 hover:text-secondary cursor-pointer transition-colors" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/locbizzz/" target="_blank" rel="noopener noreferrer">
                 <Instagram className="w-5 h-5 hover:text-secondary cursor-pointer transition-colors" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="w-5 h-5 hover:text-secondary cursor-pointer transition-colors" />
-              </a>
+             
             </div>
           </div>
 
@@ -78,7 +74,7 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center">
           <p className="text-primary-foreground/60">
-            © 2025 Localbizz. All rights reserved.
+            © 2025 Locbizz. All rights reserved.
           </p>
         </div>
       </div>

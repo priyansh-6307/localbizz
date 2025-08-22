@@ -1,32 +1,31 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
 
-const Restaurant= [
-  {
-    title: "Google Map Listing",
-    description:
-      "Get your restaurant listed on Google Maps to increase visibility and attract local customers."
-  },
-  {
-    title: "Google Ads",
-    description:
-      "Run targeted Google Ads to reach potential customers searching for food or restaurants near them."
-  },
-  {
-    title: "WhatsApp Business Account Setup",
-    description:
-      "Set up and verify your WhatsApp Business account to communicate professionally with your customers."
-  },
+const Restaurant = [
   {
     title: "Auto Message on WhatsApp",
     description:
-      "Automate greetings, quick replies, and order confirmations using WhatsApp's auto-message features."
+      "Automate greetings, quick replies, and order confirmations using WhatsApp's auto-message features.",
+    image: "/automessage.png", // image path
   },
   {
-    title: "Personalised Menu",
+    title: "Website Development",
     description:
-      "Design a personalized and digital menu that suits your brand and can be shared easily online."
-  }
+      "We design and develop responsive, user-friendly websites tailored to showcase your brand and engage customers effectively.",
+    image: "/webs.png",
+  },
+  {
+    title: "Social Media Marketing",
+    description:
+      "We provide end-to-end social media marketing services including ad campaigns, Instagram carousels, content creation, and targeted promotions to grow your brand.",
+    image: "/socialmedia.png",
+  },
+  {
+    title: "Designing Services",
+    description:
+      "We provide creative designing services including logo design, restaurant menus, pamphlets, posters, and other branding materials to make your business stand out.",
+    image: "/reald.png",
+  },
 ];
 
 export default function ViewServices() {
@@ -42,19 +41,40 @@ export default function ViewServices() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="flex flex-col gap-16">
           {Restaurant.map((service, index) => (
-            <Card key={index} className="shadow-card border-0">
-              <CardHeader className="flex items-center gap-2">
-                <CheckCircle2 className="text-green-600" />
-                <CardTitle className="text-xl font-semibold">
-                  {service.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-sm">{service.description}</p>
-              </CardContent>
-            </Card>
+            <div
+              key={index}
+              className={`flex flex-col md:flex-row items-center gap-8 ${
+                index % 2 === 1 ? "md:flex-row-reverse" : ""
+              }`}
+            >
+              {/* Image Section */}
+              <div className="w-full md:w-1/2 flex justify-center">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="rounded-2xl w-[400px] h-auto"
+                />
+              </div>
+
+              {/* Content Section */}
+              <div className="w-full md:w-1/2">
+                <Card className="shadow-card border-0">
+                  <CardHeader className="flex items-center gap-2">
+                    <CheckCircle2 className="text-green-600" />
+                    <CardTitle className="text-xl font-semibold">
+                      {service.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground text-sm">
+                      {service.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>

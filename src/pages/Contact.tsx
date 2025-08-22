@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { useRef } from "react";
@@ -23,7 +22,8 @@ export default function Contact() {
       )
       .then(
         () => {
-          alert("Message sent successfully!");
+          alert("Your query has been sent successfully! Check your email.");
+          formRef.current?.reset(); // ✅ This will also clear checkboxes now
         },
         (error) => {
           alert("Failed to send message. Please try again.");
@@ -42,7 +42,9 @@ export default function Contact() {
               Get In <span className="text-primary">Touch</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Ready to take your digital marketing to the next level? Let's discuss your goals and create a strategy that drives real results for your business.
+              Ready to take your business to the next level? Let's discuss your
+              goals and create a strategy that drives real results for your
+              business.
             </p>
           </div>
         </div>
@@ -65,8 +67,7 @@ export default function Contact() {
                       <div>
                         <h3 className="font-semibold mb-1">Our Office</h3>
                         <p className="text-muted-foreground">
-                          16th Park View, Gaur Yamuna City
-                          <br />
+                          16th Park View, Gaur Yamuna City <br />
                           Greater Noida, India 203209
                         </p>
                       </div>
@@ -82,7 +83,14 @@ export default function Contact() {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-1">Phone</h3>
-                        <p className="text-muted-foreground">+91 98765 43210</p>
+                        <a
+                          href="https://wa.me/918126605193"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          +91 8126605193
+                        </a>
                       </div>
                     </div>
                   </CardContent>
@@ -96,7 +104,14 @@ export default function Contact() {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-1">Email</h3>
-                        <p className="text-muted-foreground">diskcuser@gmail.com</p>
+                        <a
+                          href="https://mail.google.com/mail/?view=cm&fs=1&to=teamlocbizz@gmail.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          teamlocbizz@gmail.com
+                        </a>
                       </div>
                     </div>
                   </CardContent>
@@ -110,7 +125,9 @@ export default function Contact() {
                       </div>
                       <div>
                         <h3 className="font-semibold mb-1">Business Hours</h3>
-                        <p className="text-muted-foreground">Monday - Sunday 9:00 AM - 6:00 PM</p>
+                        <p className="text-muted-foreground">
+                          Monday - Sunday 9:00 AM - 6:00 PM
+                        </p>
                       </div>
                     </div>
                   </CardContent>
@@ -124,7 +141,8 @@ export default function Contact() {
                 <CardHeader>
                   <CardTitle className="text-2xl">Send us a Message</CardTitle>
                   <p className="text-muted-foreground">
-                    Fill out the form below and we'll get back to you within 24 hours.
+                    Fill out the form below and we'll get back to you within 24
+                    hours.
                   </p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -132,48 +150,79 @@ export default function Contact() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="firstName">First Name *</Label>
-                        <Input name="firstName" id="firstName" placeholder="Enter your first name" required />
+                        <Input
+                          name="firstName"
+                          id="firstName"
+                          placeholder="Enter your first name"
+                          required
+                        />
                       </div>
                       <div>
                         <Label htmlFor="lastName">Last Name *</Label>
-                        <Input name="lastName" id="lastName" placeholder="Enter your last name" required />
+                        <Input
+                          name="lastName"
+                          id="lastName"
+                          placeholder="Enter your last name"
+                          required
+                        />
                       </div>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="email">Email *</Label>
-                        <Input name="email" id="email" type="email" placeholder="Enter your email" required />
+                        <Input
+                          name="email"
+                          id="email"
+                          type="email"
+                          placeholder="Enter your email"
+                          required
+                        />
                       </div>
                       <div>
-                        <Label htmlFor="phone">Phone</Label>
-                        <Input name="phone" id="phone" placeholder="Enter your phone number" />
+                        <Label htmlFor="phone">Phone *</Label>
+                        <Input
+                          name="phone"
+                          id="phone"
+                          placeholder="Enter your phone number"
+                          required
+                        />
                       </div>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4">
                       <div>
-                        <Label htmlFor="company">Company</Label>
-                        <Input name="company" id="company" placeholder="Enter your company name" />
-                      </div>
-                      <div>
-                        <Label htmlFor="service">Service Interested In</Label>
-                        <Select name="service">
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a service" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="social-media">Social Media Marketing</SelectItem>
-                            <SelectItem value="catalogue">Personalised Catalogue</SelectItem>
-                            <SelectItem value="website-dev">Website Development</SelectItem>
-                            <SelectItem value="ads">Ad's</SelectItem>
-                            <SelectItem value="automsg">Auto Message</SelectItem>
-                            <SelectItem value="business-setup">Business Account Setup</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <Label>Services Interested In</Label>
+                        <div className="grid grid-cols-2 gap-2 mt-2">
+                          <label className="flex items-center space-x-2">
+                            <input type="checkbox" name="services" value="Social Media Marketing" />
+                            <span>Social Media Marketing</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="checkbox" name="services" value="Personalised Catalogue" />
+                            <span>Personalised Catalogue</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="checkbox" name="services" value="Website Development" />
+                            <span>Website Development</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="checkbox" name="services" value="Ad's" />
+                            <span>Ad's</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="checkbox" name="services" value="Auto Message" />
+                            <span>Auto Message</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="checkbox" name="services" value="Business Account Setup" />
+                            <span>Business Account Setup</span>
+                          </label>
+                          <label className="flex items-center space-x-2">
+                            <input type="checkbox" name="services" value="Business Account Setup" />
+                            <span>Other</span>
+                          </label>
+                        </div>
                       </div>
                     </div>
-
                     <div>
                       <Label htmlFor="message">Message *</Label>
                       <Textarea
@@ -184,7 +233,6 @@ export default function Contact() {
                         required
                       />
                     </div>
-
                     <Button type="submit" className="w-full" size="lg">
                       Send Message <Send className="ml-2 h-5 w-5" />
                     </Button>
@@ -202,27 +250,31 @@ export default function Contact() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Have questions? Here are some of the most common questions we receive from our clients.
+              Have questions? Here are some of the most common questions we
+              receive from our clients.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
               {
                 question: "How long does it take to see results?",
-                answer: "Results vary by service, but typically you'll see initial improvements within 30-60 days, with significant results in 3-6 months.",
+                answer:
+                  "Results vary by service, but typically you'll see initial improvements within 30-60 days, with significant results in 3-6 months.",
               },
               {
                 question: "Do you work with small businesses?",
-                answer: "Yes! We work with businesses of all sizes, from startups to enterprises, and tailor our services to fit your budget and goals.",
+                answer:
+                  "Yes! We work with businesses of all sizes, from startups to enterprises, and tailor our services to fit your budget and goals.",
               },
               {
-                question: "What's included in your monthly reports?",
-                answer: "Our reports include detailed analytics, performance metrics, insights, recommendations, and progress towards your goals.",
+                question: "How will you tailor your strategy specifically for our business and our industry?",
+                answer:
+                  "Your business is unique, and your strategy should be too. We start by getting to know your brand, customers, and goals. This allows us to craft a tailored plan that’s focused on delivering the powerful results you need.",
               },
               {
-                question: "Can you help with international markets?",
-                answer: "Absolutely! We have experience with global campaigns and can help you expand into international markets effectively.",
+                question: "Why You Should trust us ?",
+                answer:
+                  "We know finding the right partner is a big decision. Our goal is simple: to help businesses like yours grow. But don't just take our word for it, see what our clients are saying in our Work section",
               },
             ].map((faq, index) => (
               <Card key={index} className="border-0 shadow-card">

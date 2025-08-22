@@ -9,10 +9,7 @@ const navigationItems = [
   { name: "About Us", path: "/about" },
   { name: "Our Services", path: "/services" },
   { name: "Our Work", path: "/work" },
-
-  { name: "Get In Touch", path: "/contact" },
-];
-
+  { name: "Get In Touch", path: "/contact" }];
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -45,9 +42,7 @@ export function Navigation() {
                 {item.name}
               </Link>
             ))}
-            <Button variant="cta" size="sm">
-              Work With Us
-            </Button>
+            
           </div>
 
           {/* Mobile menu button */}
@@ -81,11 +76,7 @@ export function Navigation() {
                   {item.name}
                 </Link>
               ))}
-              <div className="px-3 py-2">
-                <Button variant="cta" size="sm" className="w-full">
-                  Work With Us
-                </Button>
-              </div>
+              
             </div>
           </div>
         )}

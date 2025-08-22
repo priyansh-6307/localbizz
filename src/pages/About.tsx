@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Users, Award, Target, Heart } from "lucide-react";
+import { Link } from "lucide-react";
 
 export default function About() {
+    const handleGetInTouch = () => {
+    window.location.href = '/contact'; 
+  };
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -10,7 +14,7 @@ export default function About() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              About <span className="text-primary">LocalBizz</span>
+              About <span className="text-primary">LocBizz</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
               We're a passionate team  dedicated to creating 
@@ -27,10 +31,10 @@ export default function About() {
             <div>
               <h2 className="text-3xl font-bold mb-6">Our Story</h2>
               <p className="text-muted-foreground mb-6">
-                LocalBizz began with a clear mission, to help small and local businesses grow in the digital world.
+                Locbizz began with a clear mission, to help small and local businesses grow in the digital world.
  We saw that many great businesses struggled not because of bad products, but because of poor digital presence. That’s where we stepped in.
 
-We launched LocalBizz to bridge that gap — offering services like Google Map listings, customized catalogues, auto messaging, digital ads, and more — all designed to boost visibility and build trust.
+We launched Locbizz to bridge that gap — offering services like Google Map listings, customized catalogues, auto messaging, digital ads, and more — all designed to boost visibility and build trust.
 
               </p>
           
@@ -43,7 +47,7 @@ We launched LocalBizz to bridge that gap — offering services like Google Map l
 We empower local businesses through smart tools like Google Map listings, custom catalogues, auto messaging, and targeted ads.
 We believe in the power of data-driven creativity to transform businesses and strengthen the bond between brands and their customers.
 Our focus is always on meaningful impact, not just flashy results.
-At LocalBizz, we’re here to help local go digital — with purpose, passion, and precision.
+At Locbizz, we’re here to help local go digital — with purpose, passion, and precision.
               </p>
              
             </div>
@@ -117,13 +121,17 @@ At LocalBizz, we’re here to help local go digital — with purpose, passion, a
     
 
       {/* CTA Section */}
-      <section className="py-16 bg-white text-zinc-900">
+   <section className="py-16 bg-white text-gray-900">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to work with us?</h2>
-          <p className="text-xl mb-8 opacity-90">
-            Let's discuss how we can help your business grow !
+          <p className="text-xl mb-8 text-gray-600">
+            Let's discuss how we can help your business grow!
           </p>
-          <Button variant="secondary" size="lg">
+          <Button 
+            onClick={handleGetInTouch}
+            className="bg-yellow-500 hover:bg-yellow-700 text-white"
+            size="lg"
+          >
             Get In Touch <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>

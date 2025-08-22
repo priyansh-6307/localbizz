@@ -17,6 +17,7 @@ import Retail from "./pages/service/Retail"
 import Real from "./pages/service/Real";
 import Other from "./pages/service/Other";
 
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/work" element={<Work />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
+           
             {/* Add custom service routes */}
             <Route path="/service/restaurant" element={<Restaurant />} />
             <Route path="/service/architect" element={<Architect />} />
