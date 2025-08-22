@@ -21,19 +21,18 @@ export default function Work() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                quote: "WeBeeSocial transformed our digital presence completely. Their strategic approach and creative execution exceeded our expectations.",
-                author: "Sarah Johnson",
-                company: "Tech Innovations Inc."
+                quote: "Locbizz transformed our digital presence completely. Their strategic approach and creative execution exceeded our expectations.",
+                author: "Atif",
+                company: "Royal Interior"
               },
               {
-                quote: "The results speak for themselves. Our online sales increased by 300% within just 6 months of working with WeBeeSocial.",
+                quote: "The results truly speak for themselves, reflecting the quality and expertise they bring to every project.",
                 author: "Raj Patel",
-                company: "Fashion Forward"
-              },
+                company: "Raj and sons"            },
               {
-                quote: "Their team's expertise in performance marketing helped us achieve our best quarter ever. Highly recommended!",
-                author: "Michael Chen",
-                company: "GrowthCorp"
+                quote: "I was thoroughly impressed with their Graphic Design services and WhatsApp automation solutions. Both were executed with creativity, precision, and professionalism.",
+                author: "Mohit ",
+                company: "Green Onion"
               }
             ].map((testimonial, index) => (
               <Card key={index} className="border-0 shadow-card">
