@@ -40,23 +40,13 @@ const philosophyBlocks = [
 // 2. Added a placeholder 'role' for the member.
 // 3. Ensured the 'url' is present in the social object.
 const teamData = [
-    { 
-        name: "Priyansh Yadav", 
     
-        location: "Locbizz",
-        image: "mine.jpg", // Placeholder image URL
-        social: [ 
-            { 
-                icon: <Instagram size={16} />, 
-                url: "https://www.instagram.com/priyanshwhy" 
-            }
-        ]
-    },
     { 
         name: "Anurag Singh", 
       
         location: "Locbizz",
         image: "da.jfif", // Placeholder image URL
+        role:"Founder",
         social: [ 
             { 
                 icon: <Instagram size={16} />, 
@@ -65,10 +55,24 @@ const teamData = [
         ]
     },
     { 
+        name: "Priyansh Yadav", 
+    
+        location: "Locbizz",
+        image: "mine.jpg", // Placeholder image URL
+        role:"Co-Founder",
+        social: [ 
+            { 
+                icon: <Instagram size={16} />, 
+                url: "https://www.instagram.com/priyanshwhy" 
+            }
+        ]
+    },
+    { 
         name: "Deepak Mishra", 
   
         location: "Locbizz",
         image: "deepak.jpg", // Placeholder image URL
+         role:"Co-Founder",
         social: [ 
             { 
                 icon: <Instagram size={16} />, 
@@ -225,7 +229,7 @@ export default function AboutUsPage() {
                                             <p className="font-bold text-sm leading-snug">{member.name}</p>
                                             
                                             {/* Role (Smaller font, muted color) */}
-                                            <p className="text-xs text-gray-700 mb-2">{member.role}</p>
+                                            <p className="text-xs text-white mb-2">{member.role}</p>
                                             
                                             {/* Social Links (YouTube and Instagram icons) */}
                                             <div className="flex space-x-2 text-gray-700">
