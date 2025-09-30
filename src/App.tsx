@@ -29,11 +29,11 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/Services" element={<Services />} />
             <Route path="/work" element={<Work />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/Contact" element={<Contact />} />
            
             {/* Add custom service routes */}
             <Route path="/service/restaurant" element={<Restaurant />} />
