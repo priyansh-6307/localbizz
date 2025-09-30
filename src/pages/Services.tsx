@@ -1,39 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowRight, CheckCircle2 } from "lucide-react"; 
 import { CTASection, Footer as ImportedFooter } from '@/components/layout/Footer'; 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Load GSAP from CDN
-const useGSAP = () => {
-    const [gsap, setGsap] = useState(null);
-    const [ScrollTrigger, setScrollTrigger] = useState(null);
-
-    useEffect(() => {
-        const script1 = document.createElement('script');
-        script1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-        script1.async = true;
-        document.body.appendChild(script1);
-
-        const script2 = document.createElement('script');
-        script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js';
-        script2.async = true;
-        document.body.appendChild(script2);
-
-        script2.onload = () => {
-            if (window.gsap && window.ScrollTrigger) {
-                window.gsap.registerPlugin(window.ScrollTrigger);
-                setGsap(window.gsap);
-                setScrollTrigger(window.ScrollTrigger);
-            }
-        };
-
-        return () => {
-            document.body.removeChild(script1);
-            document.body.removeChild(script2);
-        };
-    }, []);
-
-    return { gsap, ScrollTrigger };
-};
+gsap.registerPlugin(ScrollTrigger);
 
 const comprehensiveSolutions = [
     "Brand Activations", "360° Digital Marketing", "Content Creation", 
@@ -77,33 +48,28 @@ const accordionServices = [
 ];
 
 export default function OurServicesPage() {
-    const [openAccordion, setOpenAccordion] = useState(null); 
-    const { gsap, ScrollTrigger } = useGSAP();
-    const collageSectionRef = useRef(null);
-    const imagesRef = useRef([]);
-    const containerRef = useRef(null);
+    const [openAccordion, setOpenAccordion] = useState<number | null>(null); 
+    const collageSectionRef = useRef<HTMLElement>(null);
+    const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
+    const containerRef = useRef<HTMLDivElement>(null);
 
-    const toggleAccordion = (index) => {
+    const toggleAccordion = (index: number) => {
         setOpenAccordion(openAccordion === index ? null : index);
     };
 
     useEffect(() => {
-        if (!gsap || !ScrollTrigger) return;
+        if (!collageSectionRef.current || imagesRef.current.length === 0) return;
 
         const images = imagesRef.current.filter(Boolean);
-        if (images.length === 0) return;
 
         const ctx = gsap.context(() => {
-            // Set initial states - circular carousel positions
+            // Initial setup
             images.forEach((img, i) => {
                 const angle = (i / images.length) * Math.PI * 2;
                 const radius = 250;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
-                
                 gsap.set(img, {
-                    x: x,
-                    y: y,
+                    x: Math.cos(angle) * radius,
+                    y: Math.sin(angle) * radius,
                     rotation: angle * (180 / Math.PI) + 90,
                     scale: 0.7,
                     opacity: 0.5,
@@ -112,8 +78,8 @@ export default function OurServicesPage() {
                 });
             });
 
-            // Rotation timeline on scroll
-            const timeline = gsap.timeline({
+            // Rotation timeline
+            gsap.timeline({
                 scrollTrigger: {
                     trigger: collageSectionRef.current,
                     start: 'top center',
@@ -127,15 +93,14 @@ export default function OurServicesPage() {
                             const radius = 220 + Math.sin(progress * Math.PI * 2) * 30;
                             const x = Math.cos(angle) * radius;
                             const y = Math.sin(angle) * radius;
-                            
-                            // Calculate which image is at front (angle closest to 0)
+
                             const normalizedAngle = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
                             const distanceFromFront = Math.abs(normalizedAngle - Math.PI);
                             const isFront = distanceFromFront < Math.PI / 3;
-                            
+
                             gsap.to(img, {
-                                x: x,
-                                y: y,
+                                x,
+                                y,
                                 rotation: angle * (180 / Math.PI) + 90,
                                 scale: isFront ? 1.1 : 0.7,
                                 opacity: isFront ? 1 : 0.6,
@@ -160,11 +125,10 @@ export default function OurServicesPage() {
                     toggleActions: 'play none none none'
                 }
             });
-
         }, collageSectionRef);
 
         return () => ctx.revert();
-    }, [gsap, ScrollTrigger]);
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col bg-white text-gray-900">

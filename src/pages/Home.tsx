@@ -1,29 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { CTASection, Footer } from '@/components/layout/Footer';
+import gsap from "gsap";
 
-// Video Card Component - Optimized with proper video handling
-const VideoCard = React.memo(({ src, width, height, fallback }) => {
-    const videoRef = useRef(null);
+// Video Card Component
+const VideoCard = React.memo(({ src, width, height, fallback, index, videoRefs }) => {
+    const videoRef = useRef<HTMLVideoElement | null>(null);
 
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
         const playVideo = () => {
-            video.play().catch(err => console.warn('Video autoplay failed:', err));
+            if (video && typeof video.play === "function") {
+                video.play().catch(err => console.warn('Video autoplay failed:', err));
+            }
         };
 
-        // Initial play attempt
         playVideo();
-
-        // Replay on video end (backup for loop)
         video.addEventListener('ended', playVideo);
 
         return () => {
             video.removeEventListener('ended', playVideo);
         };
     }, []);
+
+    useEffect(() => {
+        if (videoRefs && videoRef.current?.parentElement) {
+            videoRefs.current[index] = videoRef.current.parentElement;
+        }
+    }, [index, videoRefs]);
 
     return (
         <div className={`${width} ${height} rounded-2xl shadow-2xl overflow-hidden flex-shrink-0`}>
@@ -80,14 +86,39 @@ const AdkoWebsite = () => {
     ];
 
     const logos = ['Royalinterior', 'Cafeophile', 'Green Onion'];
+    const [hoveredService, setHoveredService] = useState<string | null>(null);
 
-    const [hoveredService, setHoveredService] = useState(null);
+    // Refs for GSAP animation
+    const videoRefs = useRef<HTMLDivElement[]>([]);
+
+    useEffect(() => {
+        if (!videoRefs.current.length) return;
+
+        // Slide-in animation
+        gsap.from(videoRefs.current, {
+            x: -150,
+            opacity: 0,
+            stagger: 0.2,
+            duration: 1.2,
+            ease: "power3.out"
+        });
+
+        // Floating loop animation
+        videoRefs.current.forEach((el, i) => {
+            gsap.to(el, {
+                y: "+=15",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                duration: 2 + i * 0.3
+            });
+        });
+    }, []);
 
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section */}
-            <section className="min-h-screen  mb-10lg:flex-row mt-28">
-                {/* Text Content */}
+            <section className="min-h-screen mb-10 lg:flex-row mt-28">
                 <div className="flex-1 flex items-center justify-center px-6 py-20 lg:py-0">
                     <div className="text-center max-w-2xl">
                         <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none mb-6">
@@ -103,7 +134,7 @@ const AdkoWebsite = () => {
                 <div className="flex-1 flex items-center justify-center px-6 py-12 mt-28 lg:py-0 overflow-hidden">
                     <div className="flex gap-4 items-end">
                         {videoCards.map((card, i) => (
-                            <VideoCard key={i} {...card} />
+                            <VideoCard key={i} index={i} videoRefs={videoRefs} {...card} />
                         ))}
                     </div>
                 </div>
@@ -115,11 +146,9 @@ const AdkoWebsite = () => {
                     <h2 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight">
                         WE GET THE<br/>JOB DONE
                     </h2>
-                    
                     <p className="text-base md:text-lg leading-relaxed text-green-50 mb-12 max-w-4xl mx-auto">
-                        We're a digital marketing team that specializes in providing end-to-end services to help businesses get the required task DONE. With a wide range of expertise, including content creation, brand development, performance marketing, website design and development, graphic design, photography, videography, and 3D animation, we offer a comprehensive suite of services to meet the diverse needs of it's clients under one roof.
+                        We're a digital marketing team that specializes in providing end-to-end services...
                     </p>
-                    
                     <a 
                         href="/services" 
                         className="inline-flex items-center justify-center w-36 h-36 md:w-40 md:h-40 bg-white rounded-full hover:scale-105 transition-transform duration-300 shadow-xl"
@@ -152,7 +181,6 @@ const AdkoWebsite = () => {
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-center mb-16 md:mb-20 uppercase tracking-wider">
                         Our Expertise
                     </h2>
-                    
                     <div className="max-w-5xl mx-auto space-y-px">
                         {services.map((service) => (
                             <div
@@ -194,7 +222,6 @@ const AdkoWebsite = () => {
 
             {/* Hero Video Section */}
             <section className="relative min-h-screen flex items-center overflow-hidden bg-gray-900">
-                {/* Background Video */}
                 <div className="absolute inset-0">
                     <iframe
                         src="https://www.youtube.com/embed/MtuFBUN9SCY?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=MtuFBUN9SCY&modestbranding=1&playsinline=1"
@@ -211,8 +238,6 @@ const AdkoWebsite = () => {
                     />
                     <div className="absolute inset-0 bg-black/60" />
                 </div>
-
-                {/* Content */}
                 <div className="relative z-10 w-full px-6 py-20">
                     <div className="max-w-6xl mx-auto text-center text-white">
                         <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 border border-white/20 mb-8 md:mb-12">
@@ -222,12 +247,10 @@ const AdkoWebsite = () => {
                             </span>
                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                         </div>
-
                         <h2 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 md:mb-8 leading-tight uppercase">
                             <span className="block">TRANSFORMING BRANDS WITH</span>
                             <span className="block text-gray-400">VISION AND CREATIVITY</span>
                         </h2>
-                        
                         <p className="text-gray-300 max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
                             A creative agency specializing in branding, web development, motion graphics, and art direction to bring ideas to life.
                         </p>
@@ -235,33 +258,22 @@ const AdkoWebsite = () => {
                 </div>
             </section>
 
-            {/* CTA and Footer */}
+            {/* CTA + Footer */}
             <CTASection />
             <Footer />
 
             {/* Global Styles */}
-            <style jsx global>{`
+            <style>{`
                 @keyframes marquee {
                     0% { transform: translateX(0); }
                     100% { transform: translateX(-100%); }
                 }
-                
                 .animate-marquee {
                     animation: marquee 30s linear infinite;
                 }
-                
-                html {
-                    scroll-behavior: smooth;
-                }
-                
-                body::-webkit-scrollbar {
-                    display: none;
-                }
-                
-                body {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
+                html { scroll-behavior: smooth; }
+                body::-webkit-scrollbar { display: none; }
+                body { -ms-overflow-style: none; scrollbar-width: none; }
             `}</style>
         </div>
     );
