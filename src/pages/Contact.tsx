@@ -53,9 +53,7 @@ export default function Contact() {
             <section className="py-20" style={{ backgroundColor: THEME_COLORS.TEXT_DARK }}>
                 <div className="container mx-auto px-4">
                     <div className="text-center max-w-4xl mx-auto text-white">
-                        <h1 className="text-4xl md:text-5xl font-black mb-6">
-                            Get In <span style={{ color: THEME_COLORS.MUSTARD }}>Touch</span>
-                        </h1>
+                       
                         <p className="text-xl text-zinc-300 mb-8">
                             Ready to take your business to the next level? Let's discuss your
                             goals and create a strategy that drives real results for your business.

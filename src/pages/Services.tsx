@@ -1,30 +1,38 @@
 import React, { useState, useRef, useEffect } from 'react';
-// Imports from Lucide React
 import { ArrowRight, CheckCircle2 } from "lucide-react"; 
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CTASection, Footer as ImportedFooter } from '@/components/layout/Footer'; 
 
-// Register ScrollTrigger plugin outside the component
-gsap.registerPlugin(ScrollTrigger);
+// Load GSAP from CDN
+const useGSAP = () => {
+    const [gsap, setGsap] = useState(null);
+    const [ScrollTrigger, setScrollTrigger] = useState(null);
 
-// --- 1. DATA STRUCTURES ---
+    useEffect(() => {
+        const script1 = document.createElement('script');
+        script1.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+        script1.async = true;
+        document.body.appendChild(script1);
 
-const footerData = {
-    info: [
-        { title: "INFO" }, 
-        { title: "HOME", href: "/home" },
-        { title: "ABOUT", href: "/about" },
-        { title: "CLIENT SIDE", href: "/clients" },
-        { title: "CONTACT", href: "/contact" },
-    ],
-    explore: [
-        { title: "EXPLORE" }, 
-        { title: "OUR PHOTOGRAPHY", href: "/photo" },
-        { title: "OUR VIDEOGRAPHY", href: "/video" },
-        { title: "SAMPLING OR DISPLAY", href: "/sampling" },
-        { title: "2D ANIMATION AND VDO", href: "/animation" },
-    ]
+        const script2 = document.createElement('script');
+        script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js';
+        script2.async = true;
+        document.body.appendChild(script2);
+
+        script2.onload = () => {
+            if (window.gsap && window.ScrollTrigger) {
+                window.gsap.registerPlugin(window.ScrollTrigger);
+                setGsap(window.gsap);
+                setScrollTrigger(window.ScrollTrigger);
+            }
+        };
+
+        return () => {
+            document.body.removeChild(script1);
+            document.body.removeChild(script2);
+        };
+    }, []);
+
+    return { gsap, ScrollTrigger };
 };
 
 const comprehensiveSolutions = [
@@ -68,84 +76,118 @@ const accordionServices = [
     },
 ];
 
-
-// --- MAIN OurServicesPage COMPONENT ---
 export default function OurServicesPage() {
-    // 🔥 FIX: Initialize openAccordion to null so the accordion starts closed.
     const [openAccordion, setOpenAccordion] = useState(null); 
-    const toggleAccordion = (index) => {setOpenAccordion(openAccordion === index ? null : index);};
-
-    // --- GSAP REFERENCES ---
+    const { gsap, ScrollTrigger } = useGSAP();
     const collageSectionRef = useRef(null);
     const imagesRef = useRef([]);
+    const containerRef = useRef(null);
+
+    const toggleAccordion = (index) => {
+        setOpenAccordion(openAccordion === index ? null : index);
+    };
 
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            
-            gsap.set(imagesRef.current, {
-                yPercent: -100, 
-                scale: 0.6,    
-                opacity: 0     
-            });
-            
-            gsap.set(imagesRef.current[4], {
-                yPercent: 0,
-                scale: 0.8266,
-                opacity: 1
-            });
+        if (!gsap || !ScrollTrigger) return;
 
-            imagesRef.current.forEach((image, index) => {
-                const isHiddenImage = index < 4;
+        const images = imagesRef.current.filter(Boolean);
+        if (images.length === 0) return;
+
+        const ctx = gsap.context(() => {
+            // Set initial states - circular carousel positions
+            images.forEach((img, i) => {
+                const angle = (i / images.length) * Math.PI * 2;
+                const radius = 250;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
                 
-                ScrollTrigger.create({
-                    trigger: collageSectionRef.current, 
-                    start: "top 80%", 
-                    end: "bottom center", 
-                    scrub: true, 
-                    
-                    animation: isHiddenImage ? 
-                        gsap.to(image, {
-                            yPercent: 0,    
-                            scale: 1,      
-                            opacity: 1,     
-                            ease: "power1.inOut"
-                        }) : 
-                        gsap.to(image, {
-                            scale: 0.9, 
-                            opacity: 0.5,
-                            ease: "power1.inOut"
-                        }),
+                gsap.set(img, {
+                    x: x,
+                    y: y,
+                    rotation: angle * (180 / Math.PI) + 90,
+                    scale: 0.7,
+                    opacity: 0.5,
+                    transformOrigin: 'center center',
+                    zIndex: i === 0 ? 10 : 1
                 });
             });
 
-        }, collageSectionRef); 
+            // Rotation timeline on scroll
+            const timeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: collageSectionRef.current,
+                    start: 'top center',
+                    end: 'bottom center',
+                    scrub: 1,
+                    onUpdate: (self) => {
+                        const progress = self.progress;
+                        images.forEach((img, i) => {
+                            const baseAngle = (i / images.length) * Math.PI * 2;
+                            const angle = baseAngle + (progress * Math.PI * 4);
+                            const radius = 220 + Math.sin(progress * Math.PI * 2) * 30;
+                            const x = Math.cos(angle) * radius;
+                            const y = Math.sin(angle) * radius;
+                            
+                            // Calculate which image is at front (angle closest to 0)
+                            const normalizedAngle = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+                            const distanceFromFront = Math.abs(normalizedAngle - Math.PI);
+                            const isFront = distanceFromFront < Math.PI / 3;
+                            
+                            gsap.to(img, {
+                                x: x,
+                                y: y,
+                                rotation: angle * (180 / Math.PI) + 90,
+                                scale: isFront ? 1.1 : 0.7,
+                                opacity: isFront ? 1 : 0.6,
+                                zIndex: isFront ? 10 : 1,
+                                duration: 0.3,
+                                ease: 'power2.out'
+                            });
+                        });
+                    }
+                }
+            });
 
-        return () => ctx.revert(); 
-    }, []);
+            // Entrance animation
+            gsap.from(containerRef.current, {
+                scale: 0.5,
+                opacity: 0,
+                duration: 1,
+                ease: 'back.out(1.7)',
+                scrollTrigger: {
+                    trigger: collageSectionRef.current,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
 
+        }, collageSectionRef);
+
+        return () => ctx.revert();
+    }, [gsap, ScrollTrigger]);
 
     return (
-        <div className="min-h-screen flex flex-col bg-adko-light-bg text-adko-dark-text font-adko-body">
-            {/* PLACE YOUR IMPORTED NAVBAR COMPONENT HERE */}
-            
+        <div className="min-h-screen flex flex-col bg-white text-gray-900">
             <main className="flex-grow">
-                {/* -------------------------------------------------- */}
-                {/* BRANDING SOLUTIONS SECTION WITH IMAGE COLLAGE */}
-                {/* -------------------------------------------------- */}
-                <section ref={collageSectionRef} className="bg-adko-light-bg py-20 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative min-h-[60vh]">
-                    
+                {/* BRANDING SOLUTIONS SECTION WITH CAROUSEL */}
+                <section 
+                    ref={collageSectionRef} 
+                    className="bg-gray-50 py-32 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative min-h-screen"
+                >
                     {/* Left side: Text */}
                     <div className="lg:w-1/2 text-center lg:text-left relative z-10">
-                        <h1 className="font-adko-heading text-6xl sm:text-7xl lg:text-8xl font-black tracking-wider leading-tight">
+                        <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-wider leading-tight uppercase">
                             BRANDING SOLUTIONS
                         </h1>
                     </div>
                     
-                    {/* Right side: Image Collage */}
-                    <div className="lg:w-1/2 flex justify-center lg:justify-end relative h-[30rem] w-full max-w-lg lg:max-w-none">
-                        <div className="home-header_imgs-wrap absolute inset-0 flex overflow-hidden">
-                            
-                            {/* Images 1 through 5 - Attach Ref to each image */}
+                    {/* Right side: 3D Carousel */}
+                    <div className="lg:w-1/2 flex justify-center items-center relative h-[600px] w-full">
+                        <div 
+                            ref={containerRef}
+                            className="relative w-full h-full flex items-center justify-center"
+                            style={{ perspective: '1000px' }}
+                        >
                             {[...Array(5)].map((_, index) => (
                                 <img 
                                     key={index}
@@ -157,77 +199,88 @@ export default function OurServicesPage() {
                                         index === 3 ? '685288d5cbc516315e9b02bc_3733f912fde1737d840aa94bcfef7e10.avif' :
                                         '6852890ca0e39e4d973cfe6b_banner.avif'
                                     }`} 
-                                    alt={`Collage Image ${index + 1}`} 
-                                    className={`home-header_image absolute top-0 left-0 w-full h-full object-cover origin-center`}
+                                    alt={`Brand ${index + 1}`} 
+                                    className="absolute w-64 h-80 object-cover rounded-xl shadow-2xl"
                                 />
                             ))}
-
                         </div>
                     </div>
                 </section>
-                {/* -------------------------------------------------- */}
                 
-                {/* Driven by Ideas Section (Image 2) */}
-                <section className="bg-adko-dark-text text-white py-20 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-16">
+                {/* Driven by Ideas Section */}
+                <section className="bg-gray-900 text-white py-20 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-16">
                     <div className="lg:w-1/2 text-center lg:text-left">
-                        <h2 className="font-adko-heading text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-6">DRIVEN BY IDEAS, POWERED BY RESULTS</h2>
-                        <p className="text-lg text-zinc-300 mb-8 max-w-xl mx-auto lg:mx-0">From creative storytelling to data-driven marketing, we offer a full spectrum of services designed to elevate your brand at every touchpoint. Whether it's building your online presence, crafting compelling content, or launching campaigns that resonate, we combine strategy and creativity to deliver real results</p>
+                        <h2 className="text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-6 uppercase">
+                            DRIVEN BY IDEAS, POWERED BY RESULTS
+                        </h2>
+                        <p className="text-lg text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0">
+                            From creative storytelling to data-driven marketing, we offer a full spectrum of services designed to elevate your brand at every touchpoint.
+                        </p>
                         
-                        {/* 🔥 FIX: Changed <button> to <a> tag and added href="/contact" */}
                         <a 
                             href="/contact"
-                            className="bg-adko-mustard hover:bg-adko-yellow-dark text-adko-dark-text font-adko-heading py-3 px-8 text-base uppercase font-bold transition-colors flex items-center mx-auto lg:mx-0 w-fit"
-                            onClick={() => console.log('Start a project clicked')} 
+                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-8 text-base uppercase transition-colors inline-flex items-center"
                         >
                             <span className="mr-2">Start a project</span>
                             <ArrowRight className="h-5 w-5" />
                         </a>
-                        
                     </div>
                     
-                    {/* RESTORED VIDEO ELEMENT */}
                     <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                        <div className="w-full max-w-lg h-96 bg-gray-700 rounded-lg shadow-xl flex items-center justify-center text-sm font-semibold text-gray-300">
+                        <div className="w-full max-w-lg h-96 bg-gray-700 rounded-lg shadow-xl overflow-hidden">
                             <video 
                                 src="/uouoo.mp4" 
-                                className="w-full h-full object-cover rounded-lg"
+                                className="w-full h-full object-cover"
                                 autoPlay        
                                 loop
                                 muted           
                                 playsInline     
-                                controls={false} 
-                            >
-                                Your browser does not support the video tag.
-                            </video>
+                            />
                         </div>
                     </div>
                 </section>
 
-                {/* Comprehensive Digital & Creative Solutions (Image 2 - Yellow Buttons) */}
-                <section className="bg-adko-light-bg py-20 px-8 sm:px-12 text-center">
-                    <h2 className="font-adko-heading text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-16">COMPREHENSIVE DIGITAL & CREATIVE SOLUTIONS</h2>
+                {/* Comprehensive Solutions */}
+                <section className="bg-gray-50 py-20 px-8 sm:px-12 text-center">
+                    <h2 className="text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-16 uppercase">
+                        COMPREHENSIVE DIGITAL & CREATIVE SOLUTIONS
+                    </h2>
                     <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                        {comprehensiveSolutions.map((solution, index) => (<button key={index} onClick={() => console.log(`${solution} clicked`)} className="bg-adko-mustard hover:bg-adko-yellow-dark text-adko-dark-text font-adko-heading text-sm font-bold uppercase py-4 px-3 rounded-md shadow-md transition-colors duration-200 flex items-center justify-center text-center"><CheckCircle2 className="h-4 w-4 mr-2" />{solution}</button>))}
+                        {comprehensiveSolutions.map((solution, index) => (
+                            <button 
+                                key={index} 
+                                className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold text-sm uppercase py-4 px-3 rounded-md shadow-md transition-colors inline-flex items-center justify-center text-center"
+                            >
+                                <CheckCircle2 className="h-4 w-4 mr-2 flex-shrink-0" />
+                                {solution}
+                            </button>
+                        ))}
                     </div>
                 </section>
 
-                {/* Services Accordion Section (Image 3) */}
-                <section className="bg-adko-light-bg py-20 px-8 sm:px-12">
+                {/* Services Accordion */}
+                <section className="bg-gray-50 py-20 px-8 sm:px-12">
                     <div className="max-w-4xl mx-auto">
-                        <h2 className="font-adko-heading text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-12 text-center">SERVICES</h2>
+                        <h2 className="text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-12 text-center uppercase">
+                            SERVICES
+                        </h2>
                         <div className="border-t border-b border-gray-300">
                             {accordionServices.map((service, index) => (
                                 <div key={index} className="border-b border-gray-300 last:border-b-0">
                                     <button 
                                         onClick={() => toggleAccordion(index)} 
-                                        className="flex justify-between items-center w-full py-6 px-4 text-left font-adko-heading text-xl sm:text-2xl uppercase transition-colors duration-300 hover:bg-gray-100"
+                                        className="flex justify-between items-center w-full py-6 px-4 text-left text-xl sm:text-2xl uppercase transition-colors duration-300 hover:bg-gray-100 font-bold"
                                     >
                                         {service.title}
-                                        {openAccordion === index ? (<span className="text-3xl font-light">-</span>) : (<span className="text-3xl font-light">+</span>)}
+                                        <span className="text-3xl font-light">
+                                            {openAccordion === index ? '-' : '+'}
+                                        </span>
                                     </button>
                                     {openAccordion === index && (
-                                        <div className="bg-blue-200 bg-opacity-70 text-adko-dark-text p-4 sm:p-6 transition-all duration-500 ease-in-out">
-                                            <p className="text-base sm:text-lg leading-relaxed">{service.description}</p>
+                                        <div className="bg-blue-100 text-gray-900 p-4 sm:p-6">
+                                            <p className="text-base sm:text-lg leading-relaxed">
+                                                {service.description}
+                                            </p>
                                         </div>
                                     )}
                                 </div>
@@ -237,9 +290,8 @@ export default function OurServicesPage() {
                 </section>
             </main>
             
-            {/* FOOTER COMPONENTS */}
-            <CTASection/>
-            <ImportedFooter/> 
+            <CTASection />
+            <ImportedFooter /> 
         </div>
     );
 }
