@@ -1,86 +1,122 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react'; 
 
-const navigationItems = [
-  { name: "Home", path: "/" },
-  { name: "About Us", path: "/about" },
-  { name: "Our Services", path: "/services" },
-  { name: "Our Work", path: "/work" },
-  { name: "Get In Touch", path: "/contact" }];
-export function Navigation() {
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
+// Define navLinks
+const navLinks = [
+    { title: "HOME", href: "/" }, 
+    { title: "OUR SERVICES", href: "/services" },
+    { title: "ABOUT US", href: "/about" },
+    { title: "OUR WORK", href: "/work" },
+];
 
-  return (
-    <nav className="bg-background/95 backdrop-blur-sm border-b border-border sticky top-0 z-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">WB</span>
-            </div>
-            <img className="w-14 h-14 " src="favicon.ico" alt=""  />
-          </Link>
+const Navbar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    
+    // Links for display, separated into central navigation and CTA
+    const centralNavLinks = navLinks.filter(link => link.title !== "OUR WORK"); 
+    const ctaLink = { title: "GET IN TOUCH", href: "/contact" };
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname === item.path
-                    ? "text-primary border-b-2 border-primary pb-1"
-                    : "text-muted-foreground"
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
+    return (
+        // The main container is no longer sticky
+        <div className="relative w-full"> 
             
-          </div>
+            {/* 🔥 NEW FIX: This separate Gold/CTA element is likely what you want hidden on mobile.
+               I will wrap this logic in a conditional rendering block.
+               
+               ***IF THIS GOLD BAR IS DEFINED IN LAYOUT.TSX, YOU NEED TO HIDE IT THERE.
+               Assuming it's meant to be managed by the Navbar for now:
+            */}
+            
+            {/* Main Navigation Bar */}
+            <nav className="bg-adko-light-bg shadow-sm">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+                    
+                    {/* Parent container for main nav items */}
+                    <div className="flex items-center justify-between h-20 relative"> 
+                        
+                        {/* Logo: AD.KO. (Always visible, left side) */}
+                        <div className="flex items-center flex-shrink-0 relative z-50"> 
+                            <a href="/" className="logo text-adko-dark-text font-adko-heading text-6xl tracking-tight leading-none">
+                                <img className='w-16 h-16 md:w-20 md:h-20' src="favicon.ico" alt="ADKO Logo" />
+                            </a>
+                        </div>
+                        
+                        {/* Desktop Navigation Group (Visible from 'lg' breakpoint) */}
+                        <div className="hidden lg:flex items-center w-full justify-end h-full">
+                            
+                            {/* Centered Link Group */}
+                            <div className="flex items-center space-x-12 absolute left-1/2 transform -translate-x-1/2">
+                                {centralNavLinks.map((link) => (
+                                    <a 
+                                        key={link.title}
+                                        href={link.href} 
+                                        className="font-adko-heading text-lg xl:text-xl uppercase tracking-wider transition-colors text-adko-dark-text hover:text-adko-mustard"
+                                    >
+                                        {link.title}
+                                    </a>
+                                ))}
+                            </div>
+                            
+                            {/* GET IN TOUCH CTA (Desktop - Right side, visible from lg) */}
+                            <a 
+                                href={ctaLink.href}
+                                className="bg-adko-button-bg border border-adko-button-border text-adko-dark-text font-adko-heading 
+                                            px-6 py-3 uppercase text-base tracking-wider transition-all rounded-lg 
+                                            hover:bg-adko-black hover:text-white flex items-center justify-center relative z-20"
+                                style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
+                            >
+                                {ctaLink.title}
+                            </a>
+                        </div>
+                        
+                        {/* Mobile Menu Button (Visible below 'lg' breakpoint, right side) */}
+                        <div className="flex items-center space-x-4 relative z-50 lg:hidden">
+                            
+                            {/* Removed the overlapping mobile CTA entirely, 
+                                as it belongs inside the dropdown or not at all on this primary bar. */}
+                            
+                            <button 
+                                className="text-adko-dark-text"
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                aria-label="Toggle Menu"
+                            >
+                                {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(!isOpen)}
+            {/* Mobile Menu Content (Appears under header) */}
+            <div 
+                className={`lg:hidden absolute top-20 left-0 w-full bg-adko-light-bg z-40 transition-transform duration-300 ease-in-out shadow-xl ${
+                    isMenuOpen ? 'transform translate-y-0' : 'transform -translate-y-full'
+                }`}
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-card border-t border-border">
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={cn(
-                    "block px-3 py-2 rounded-md text-base font-medium transition-colors",
-                    location.pathname === item.path
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-primary hover:bg-muted"
-                  )}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              
+                <div className="flex flex-col space-y-4 p-6 border-t border-gray-200">
+                    {centralNavLinks.map((link) => (
+                        <a 
+                            key={link.title}
+                            href={link.href}
+                            className="text-xl text-adko-dark-text font-medium uppercase tracking-wider hover:text-adko-mustard py-2"
+                            onClick={() => setIsMenuOpen(false)} 
+                        >
+                            {link.title}
+                        </a>
+                    ))}
+                    
+                    {/* GET IN TOUCH CTA (Mobile Menu - Should be visible inside the dropdown) */}
+                    <a 
+                        href={ctaLink.href} 
+                        className="bg-adko-mustard text-adko-dark-text px-6 py-3 uppercase text-base tracking-wider mt-4 hover:bg-adko-dark-text hover:text-white text-center rounded-md"
+                        onClick={() => setIsMenuOpen(false)}
+                    >
+                        {ctaLink.title}
+                    </a>
+                </div>
             </div>
-          </div>
-        )}
-      </div>
-    </nav>
-  );
-}
+        </div>
+    );
+};
+
+export default Navbar;

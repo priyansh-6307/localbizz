@@ -24,6 +24,12 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				'adko-light-bg': '#E8E8E3',      // Light gray/beige from stats section
+        'adko-dark-text': '#2C2C2C',     // Dark text/heading color
+        'adko-mustard': '#C99E3A',       // Strong yellow/gold (COLLABORATION block)
+        'adko-blue-grey': '#7EA8BA',     // Muted blue/grey (NO RULES TO CREATIVITY block)
+        'adko-rust': '#BF6C27',          // Orange/rust color (OUR WORK DOESN'T JUST EXIST block)
+        'adko-red-accent': '#C52B35',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
@@ -69,6 +75,11 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+			 fontFamily: {
+        // Use 'Oswald' or similar heavy, condensed font to match the image
+        'adko-heading': ['Oswald', 'Impact', 'sans-serif'], 
+		'adko-body': ['Roboto', 'sans-serif']
+      },
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
