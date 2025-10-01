@@ -265,7 +265,7 @@ export default function Contact() {
                     </div>
                 </div>
             </section>
-            <CTASection/>
+       
             <Footer/>
         </div>
     );

@@ -49,11 +49,15 @@ export const CTASection = () => (
 );
 
 // --- 2. FOOTER COMPONENT (No changes needed here) ---
+// --- 2. FOOTER COMPONENT --- 
 export const Footer = () => (
     <footer className="bg-green-600 text-white relative overflow-hidden">
         <div className="py-20 px-6">
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+                {/* ✅ Use 2 columns instead of 3 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                    
+                    {/* Left Side - Agency Info */}
                     <div>
                         <p className="text-green-100 mb-8 text-base leading-relaxed">
                             A creative agency specializing in branding, web development, motion graphics, and art direction to bring ideas to life.
@@ -68,7 +72,6 @@ export const Footer = () => (
                             >
                                 <Instagram className="w-5 h-5" />
                             </a>
-                            
                             <a 
                                 href="https://x.com/DiskCuser" 
                                 target="_blank" 
@@ -76,33 +79,24 @@ export const Footer = () => (
                                 className="w-10 h-10 bg-green-700 rounded-full flex items-center justify-center hover:bg-green-800 transition-colors"
                                 aria-label="Follow us on Twitter"
                             >
-                                {/* X (formerly Twitter) SVG Icon */}
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
                                 </svg>
                             </a>
                         </div>
                     </div>
-                    
-                    <div>
+
+                    {/* Right Side - Quick Links */}
+                    <div className="md:justify-self-end">
                         <h4 className="text-xs font-bold tracking-wider text-green-200 mb-6 uppercase">Quick Links</h4>
-                        <div className="space-y-3">
+                        <div className="space-y-3 text-right md:text-right">
                             <a href="/" className="block text-white hover:text-green-200 transition-colors duration-200">HOME</a>
                             <a href="/About" className="block text-white hover:text-green-200 transition-colors duration-200">ABOUT</a>
                             <a href="/services" className="block text-white hover:text-green-200 transition-colors duration-200">OUR SERVICES</a>
                             <a href="/contact" className="block text-white hover:text-green-200 transition-colors duration-200">CONTACT</a>
                         </div>
                     </div>
-                    
-                    <div>
-                        <h4 className="text-xs font-bold tracking-wider text-green-200 mb-6 uppercase">Explore</h4>
-                        <div className="space-y-3">
-                            <a href="#" className="block text-white hover:text-green-200 transition-colors duration-200">OUR PHOTOGRAPHY</a>
-                            <a href="#" className="block text-white hover:text-green-200 transition-colors duration-200">OUR VIDEOGRAPHY</a>
-                            <a href="#" className="block text-white hover:text-green-200 transition-colors duration-200">WEBSITE DEVELOPMENT</a>
-                            <a href="#" className="block text-white hover:text-green-200 transition-colors duration-200">3D ANIMATION AND CGI</a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

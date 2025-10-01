@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { CTASection, Footer } from '@/components/layout/Footer';
 import gsap from "gsap";
+// import Link from "next/link";
 
 // Video Card Component
 const VideoCard = React.memo(({ src, width, height, fallback, index, videoRefs }) => {
@@ -32,7 +33,7 @@ const VideoCard = React.memo(({ src, width, height, fallback, index, videoRefs }
     }, [index, videoRefs]);
 
     return (
-        <div className={`${width} ${height} rounded-2xl shadow-2xl overflow-hidden flex-shrink-0`}>
+        <div className={`${width} ${height} rounded-2xl shadow-2xl overflow-hidden flex-shrink-0 snap-center`}>
             <video
                 ref={videoRef}
                 src={src}
@@ -132,7 +133,7 @@ const AdkoWebsite = () => {
 
                 {/* Video Cards */}
                 <div className="flex-1 flex items-center justify-center px-6 py-12 mt-28 lg:py-0 overflow-hidden">
-                    <div className="flex gap-4 items-end">
+                    <div className="flex gap-4 items-end overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide">
                         {videoCards.map((card, i) => (
                             <VideoCard key={i} index={i} videoRefs={videoRefs} {...card} />
                         ))}
@@ -144,17 +145,17 @@ const AdkoWebsite = () => {
             <section className="py-20 md:py-32 px-6 bg-gradient-to-br from-green-700 to-green-800 text-white">
                 <div className="max-w-6xl mx-auto text-center">
                     <h2 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight">
-                        WE GET THE<br/>JOB DONE
+                        WE GET THE<br />JOB DONE
                     </h2>
                     <p className="text-base md:text-lg leading-relaxed text-green-50 mb-12 max-w-4xl mx-auto">
                         We're a digital marketing team that specializes in providing end-to-end services...
                     </p>
-                    <a 
-                        href="/services" 
+                    <a
+                        href="/services"
                         className="inline-flex items-center justify-center w-36 h-36 md:w-40 md:h-40 bg-white rounded-full hover:scale-105 transition-transform duration-300 shadow-xl"
                     >
                         <span className="text-green-800 font-bold text-xs md:text-sm uppercase tracking-wider text-center leading-tight">
-                            OUR<br/>BRAND<br/>SOLUTIONS
+                            OUR<br />BRAND<br />SOLUTIONS
                         </span>
                     </a>
                 </div>
@@ -198,21 +199,22 @@ const AdkoWebsite = () => {
                                             {service.description}
                                         </p>
                                     </div>
-                                    <ArrowRight 
-                                        className={`w-5 h-5 md:w-6 md:h-6 flex-shrink-0 transition-transform duration-300 ${
-                                            hoveredService === service.id ? 'translate-x-2' : ''
-                                        }`} 
+                                    <ArrowRight
+                                        className={`w-5 h-5 md:w-6 md:h-6 flex-shrink-0 transition-transform duration-300 ${hoveredService === service.id ? 'translate-x-2' : ''
+                                            }`}
                                     />
                                 </div>
                             </div>
                         ))}
                     </div>
-                    
+
                     <div className="text-center mt-16 md:mt-20">
-                        <button className="bg-zinc-800 text-white px-8 md:px-12 py-3 md:py-4 uppercase text-xs md:text-sm tracking-wider hover:bg-green-700 transition-colors inline-flex items-center gap-3">
-                            <span>CONTACT US</span>
-                            <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                        </button>
+                        <a href="/contact">
+                            <button className="bg-zinc-800 text-white px-8 md:px-12 py-3 md:py-4 uppercase text-xs md:text-sm tracking-wider hover:bg-green-700 transition-colors inline-flex items-center gap-3">
+                                <span>CONTACT US</span>
+                                <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                            </button>
+                        </a>
                         <p className="text-xs md:text-sm text-gray-600 mt-4 uppercase tracking-wider">
                             Let's create something together
                         </p>
@@ -274,6 +276,8 @@ const AdkoWebsite = () => {
                 html { scroll-behavior: smooth; }
                 body::-webkit-scrollbar { display: none; }
                 body { -ms-overflow-style: none; scrollbar-width: none; }
+                .scrollbar-hide::-webkit-scrollbar { display: none; }
+                .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
             `}</style>
         </div>
     );
