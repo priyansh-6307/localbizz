@@ -7,9 +7,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const comprehensiveSolutions = [
-    "Brand Activations", "360° Digital Marketing", "Content Creation", 
-    "3D Animation and CGI", "Performance Marketing", "Website Design and Development", 
-    "Consulting", "Designing and Branding", "Social Media", "Hero Campaigns"
+     "Content Creation", 
+    "3D Animation ",  "Website Design and Development", 
+     "Designing and Branding", "Social Media"
 ];
 
 const accordionServices = [
@@ -22,17 +22,11 @@ const accordionServices = [
         description: "Dive into a complete digital strategy that covers every customer touchpoint. We integrate SEO, paid advertising, content marketing, and email campaigns to ensure seamless brand messaging and maximize conversion rates across the entire digital ecosystem."
     },
     { 
-        title: "3D Animation and CGI", 
+        title: "3D Animation ", 
         description: "Bring your products and concepts to life with stunning, photorealistic 3D rendering and computer-generated imagery. Ideal for complex product visualization, architectural walkthroughs, and attention-grabbing motion graphics that captivate and inform your viewers."
     },
-    { 
-        title: "Hero Campaign Ideation + Execution", 
-        description: "Develop and launch impactful hero campaigns designed to dominate the market and achieve viral awareness. We handle everything from concept development and media planning to full execution and analytics reporting to ensure maximum reach and resonance."
-    },
-    { 
-        title: "Performance Marketing", 
-        description: "Maximize your Return on Investment (ROI) with data-driven paid campaigns. We focus on rigorous testing, audience segmentation, and continuous optimization across platforms like Google Ads and social media to ensure every dollar spent drives measurable revenue and growth."
-    },
+   
+   
     { 
         title: "Website Design and Development", 
         description: "Create fast, engaging, and high-performing websites built for conversions. Our service includes custom UI/UX design, mobile responsiveness, seamless e-commerce integration, and robust back-end development to provide a superior user experience."

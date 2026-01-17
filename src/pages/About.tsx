@@ -202,56 +202,7 @@ export default function AboutUsPage() {
                 {/* --------------------------------- */}
                 {/* 3. OUR PEOPLE SECTION (Image 2) */}
                 {/* --------------------------------- */}
-                <section className="py-24 px-4 sm:px-8 bg-adko-dark-text text-white">
-                    <h2 className="font-adko-heading text-4xl sm:text-5xl  tracking-wider ml-28 mb-12 text-white">
-                        OUR PEOPLE
-                    </h2>
-
-                    {Object.keys(groupedTeam).map(location => (
-                        <div key={location} className="mb-16">
-                            {/* 🔥 REMOVED LOCATION TEXT: The h3 tag below is commented out as requested. */}
-                            {/* <h3 className="font-adko-heading text-2xl font-extrabold tracking-widest mb-8 text-adko-dark-text">
-                                {location}
-                            </h3> */}
-                            <div className="flex flex-wrap justify-start gap-12 max-w-7xl mx-auto">
-                                {groupedTeam[location].map((member, index) => (
-                                    <div key={index} className="w-full sm:w-60"> 
-                                        <div className="h-80 w-full overflow-hidden mb-4">
-                                            <img 
-                                                src={member.image} // 🔥 FIXED: Using the 'image' property which now holds a URL.
-                                                alt={member.name} 
-                                                className="w-full text-white h-full object-cover rounded-sm" 
-                                                style={{ filter: 'grayscale(10%)' }} 
-                                            />
-                                        </div>
-                                        <div className="text-white">
-                                            {/* Name (Larger font, bold) */}
-                                            <p className="font-bold text-sm leading-snug">{member.name}</p>
-                                            
-                                            {/* Role (Smaller font, muted color) */}
-                                            <p className="text-xs text-white mb-2">{member.role}</p>
-                                            
-                                            {/* Social Links (YouTube and Instagram icons) */}
-                                            <div className="flex space-x-2 text-gray-700">
-                                                {member.social.map((socialItem, i) => (
-                                                    <a 
-                                                        key={i} 
-                                                        href={socialItem.url} // 🔥 FIXED: Using socialItem.url here
-                                                        target="_blank" 
-                                                        rel="noopener noreferrer" 
-                                                        className="hover:text-zinc-700 text-white cursor-pointer transition-colors"
-                                                    >
-                                                        {socialItem.icon}
-                                                    </a>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </section>
+              
                 
             </main>
 

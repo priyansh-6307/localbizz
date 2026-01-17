@@ -72,24 +72,7 @@ export default function Contact() {
                             <h2 className="text-2xl font-black mb-6" style={{ color: THEME_COLORS.TEXT_DARK }}>Contact Information</h2>
                             <div className="space-y-6">
                                 
-                                {/* Office Card */}
-                                <Card className="border shadow-lg" style={{ borderColor: THEME_COLORS.BG_LIGHT, backgroundColor: 'white' }}>
-                                    <CardContent className="p-6">
-                                        <div className="flex items-start space-x-4">
-                                            <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: THEME_COLORS.MUSTARD }}>
-                                                <MapPin className="h-5 w-5 text-white" />
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold mb-1">Our Office</h3>
-                                                <p style={{ color: THEME_COLORS.TEXT_MUTED }}>
-                                                    16th Park View, Gaur Yamuna City <br />
-                                                    Greater Noida, India 203209
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-
+                             
                                 {/* Phone Card */}
                                 <Card className="border shadow-lg" style={{ borderColor: THEME_COLORS.BG_LIGHT, backgroundColor: 'white' }}>
                                     <CardContent className="p-6">
