@@ -6,7 +6,7 @@ const navLinks = [
     { title: "HOME", href: "/" }, 
     { title: "OUR SERVICES", href: "/services" },
     { title: "ABOUT US", href: "/about" },
-    { title: "TOOLS", href: "AUTOCUT.IN" },
+    { title: "TOOLS", href: "https://autocut.in" },
     { title: "OUR WORK", href: "/work" },
 ];
 
