@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowRight, CheckCircle2 } from "lucide-react"; 
-import { CTASection, Footer as ImportedFooter } from '@/components/layout/Footer'; 
+import { Footer } from '@/components/layout/Footer'; 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -125,16 +125,16 @@ export default function OurServicesPage() {
     }, []);
 
     return (
-        <div className="min-h-screen flex flex-col bg-white text-gray-900">
+        <div className="min-h-screen flex flex-col bg-black text-white">
             <main className="flex-grow">
                 {/* BRANDING SOLUTIONS SECTION WITH CAROUSEL */}
                 <section 
                     ref={collageSectionRef} 
-                    className="bg-gray-50 py-32 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative min-h-screen"
+                    className="bg-black py-32 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative min-h-screen border-b border-zinc-900"
                 >
                     {/* Left side: Text */}
                     <div className="lg:w-1/2 text-center lg:text-left relative z-10">
-                        <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-wider leading-tight uppercase">
+                        <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-wider leading-tight uppercase text-white">
                             BRANDING SOLUTIONS
                         </h1>
                     </div>
@@ -158,7 +158,7 @@ export default function OurServicesPage() {
                                         '6852890ca0e39e4d973cfe6b_banner.avif'
                                     }`} 
                                     alt={`Brand ${index + 1}`} 
-                                    className="absolute w-64 h-80 object-cover rounded-xl shadow-2xl"
+                                    className="absolute w-64 h-80 object-cover rounded-xl shadow-2xl border border-zinc-800"
                                 />
                             ))}
                         </div>
@@ -166,18 +166,18 @@ export default function OurServicesPage() {
                 </section>
                 
                 {/* Driven by Ideas Section */}
-                <section className="bg-gray-900 text-white py-20 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-16">
+                <section className="bg-zinc-950 text-white py-20 px-8 sm:px-12 flex flex-col lg:flex-row items-center justify-between gap-16 border-b border-zinc-900">
                     <div className="lg:w-1/2 text-center lg:text-left">
                         <h2 className="text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-6 uppercase">
                             DRIVEN BY IDEAS, POWERED BY RESULTS
                         </h2>
-                        <p className="text-lg text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0">
+                        <p className="text-lg text-zinc-400 mb-8 max-w-xl mx-auto lg:mx-0">
                             From creative storytelling to data-driven marketing, we offer a full spectrum of services designed to elevate your brand at every touchpoint.
                         </p>
                         
                         <a 
                             href="/contact"
-                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 px-8 text-base uppercase transition-colors inline-flex items-center"
+                            className="bg-white hover:bg-zinc-200 text-black font-bold py-3 px-8 text-base uppercase transition-colors inline-flex items-center rounded-full"
                         >
                             <span className="mr-2">Start a project</span>
                             <ArrowRight className="h-5 w-5" />
@@ -185,7 +185,7 @@ export default function OurServicesPage() {
                     </div>
                     
                     <div className="lg:w-1/2 flex justify-center lg:justify-end">
-                        <div className="w-full max-w-lg h-96 bg-gray-700 rounded-lg shadow-xl overflow-hidden">
+                        <div className="w-full max-w-lg h-96 bg-zinc-900 rounded-lg shadow-xl overflow-hidden border border-zinc-800">
                             <video 
                                 src="/uouoo.mp4" 
                                 className="w-full h-full object-cover"
@@ -199,9 +199,9 @@ export default function OurServicesPage() {
                 </section>
 
                 {/* Comprehensive Solutions */}
-                <section className="bg-gray-50 py-20 px-8 sm:px-12 text-center">
-                    <h2 className="text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-16 uppercase">
-                        COMPREHENSIVE DIGITAL & CREATIVE SOLUTIONS
+                <section className="bg-black py-20 px-8 sm:px-12 text-center">
+                    <h2 className="text-5xl sm:text-6xl font-black tracking-wider leading-tight mb-16 uppercase text-white">
+                        COMPREHENSIVE SOLUTIONS
                     </h2>
                     <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                         {comprehensiveSolutions.map((solution, index) => (
@@ -248,8 +248,7 @@ export default function OurServicesPage() {
                 </section>
             </main>
             
-            <CTASection />
-            <ImportedFooter /> 
+            <Footer /> 
         </div>
     );
 }

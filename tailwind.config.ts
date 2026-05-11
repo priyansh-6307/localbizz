@@ -24,12 +24,11 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
-				'adko-light-bg': '#E8E8E3',      // Light gray/beige from stats section
-        'adko-dark-text': '#2C2C2C',     // Dark text/heading color
-        'adko-mustard': '#C99E3A',       // Strong yellow/gold (COLLABORATION block)
-        'adko-blue-grey': '#7EA8BA',     // Muted blue/grey (NO RULES TO CREATIVITY block)
-        'adko-rust': '#BF6C27',          // Orange/rust color (OUR WORK DOESN'T JUST EXIST block)
-        'adko-red-accent': '#C52B35',
+        
+        // MoMoney inspired accents
+        'momoney-green': '#39FF14', // Vibrant neon green
+        'momoney-dark': '#09090b',  // Deep dark gray/black
+
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
@@ -59,11 +58,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				geometric: {
-					yellow: 'hsl(var(--geometric-yellow))',
-					teal: 'hsl(var(--geometric-teal))',
-					gray: 'hsl(var(--geometric-gray))'
-				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -76,9 +70,8 @@ export default {
 				}
 			},
 			 fontFamily: {
-        // Use 'Oswald' or similar heavy, condensed font to match the image
         'adko-heading': ['Oswald', 'Impact', 'sans-serif'], 
-		'adko-body': ['Roboto', 'sans-serif']
+		    'adko-body': ['Roboto', 'sans-serif']
       },
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -87,20 +80,12 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				}
 			},
 			animation: {

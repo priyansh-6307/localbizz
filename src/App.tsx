@@ -31,8 +31,8 @@ const App = () => (
             <Route path="/" element={<Home />} />
             <Route path="/About" element={<About />} />
             <Route path="/Services" element={<Services />} />
-      
-       
+            <Route path="/Work" element={<Work />} />
+            <Route path="/work" element={<Work />} />
             <Route path="/Contact" element={<Contact />} />
            
             {/* Add custom service routes */}
